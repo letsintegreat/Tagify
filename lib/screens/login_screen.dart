@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -11,14 +12,14 @@ class LoginScreen extends StatelessWidget {
           Container(
             width: double.infinity,
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/login_page.svg'),
-                  fit: BoxFit.cover),
-              
-            ),
+                image: DecorationImage(
+                    image: AssetImage('assets/login_page.png'),
+                    fit: BoxFit.cover)),
           ),
-          Container(
-            width: double.infinity,
+          // Container(
+          //   width: double.infinity,
+          //   child:
+          Center(
             child: Column(
               children: [
                 const SizedBox(
@@ -36,26 +37,34 @@ class LoginScreen extends StatelessWidget {
                   height: 15,
                 ),
                 Container(
-                  margin: EdgeInsets.all(0),
-                  child: Divider(
+                  margin: const EdgeInsets.all(0),
+                  width: 200,
+                  child: const Divider(
                     thickness: 4,
                     color: Colors.white,
                   ),
-                  width: 200,
                 ),
+                Text('Project X', style: GoogleFonts.inter(fontSize: 40,fontWeight: FontWeight.w300,color: Colors.white),),
                 const SizedBox(
-                  height: 300,
+                  height: 250,
                 ),
                 Container(
                   width: 300,
                   height: 60,
                   decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(9))),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(9),
+                    ),
+                  ),
+                  child:  Center(
+                    child: Text('Login with Outlook',style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500),),
+                  ),
                 ),
               ],
             ),
           ),
+          //),
         ],
       ),
     );

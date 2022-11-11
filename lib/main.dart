@@ -2,16 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hackathon_project/screens/login_screen.dart';
 
 import 'firebase_options.dart';
 import 'package:http/http.dart' as http;
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:aad_oauth/model/config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   Future<String?> getLogin() async {
-    final storage = FlutterSecureStorage();
+    const storage = FlutterSecureStorage();
     String? value = await storage.read(key: "user");
     return value;
   }
@@ -46,59 +45,60 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: FutureBuilder<String?>(
-          future: getLogin(),
-          builder: (context, snapshot) => (snapshot.hasData)
-              ? Text(snapshot.data!)
-              : Column(
-                      children: [
-                        ElevatedButton(
-                          child: const Text('ms login'),
-                          onPressed: () async {
-                            final storage = new FlutterSecureStorage();
-                            try {
-                              await oauth.login();
-                              var accessToken = await oauth.getAccessToken();
-                              if (accessToken != null) {
-                                final storage = FlutterSecureStorage();
-                                var response = await http.get(
-                                    Uri.parse(
-                                        'https://graph.microsoft.com/v1.0/me'),
-                                    headers: {
-                                      HttpHeaders.authorizationHeader:
-                                          accessToken
-                                    });
-                                print(response.statusCode);
-                                if (response.statusCode != 200) {
-                                  print("error");
+      home: const LoginScreen(),
+      // home: Scaffold(
+      //   appBar: AppBar(
+      //     title: const Text('Plugin example app'),
+      //   ),
+      //   body: FutureBuilder<String?>(
+      //     future: getLogin(),
+      //     builder: (context, snapshot) => (snapshot.hasData)
+      //         ? Text(snapshot.data!)
+      //         : Column(
+      //                 children: [
+      //                   ElevatedButton(
+      //                     child: const Text('ms login'),
+      //                     onPressed: () async {
+      //                       const storage =  FlutterSecureStorage();
+      //                       try {
+      //                         await oauth.login();
+      //                         var accessToken = await oauth.getAccessToken();
+      //                         if (accessToken != null) {
+      //                           final storage = FlutterSecureStorage();
+      //                           var response = await http.get(
+      //                               Uri.parse(
+      //                                   'https://graph.microsoft.com/v1.0/me'),
+      //                               headers: {
+      //                                 HttpHeaders.authorizationHeader:
+      //                                     accessToken
+      //                               });
+      //                           print(response.statusCode);
+      //                           if (response.statusCode != 200) {
+      //                             print("error");
 
-                                  return;
-                                }
-                                var data = jsonDecode(response.body);
-                                var name = nameCaper(data['displayName']);
-                                var rollNumber = data['surname'];
-                                var email = data['userPrincipalName'];
-                                var uid = data['id'];
-                                var course = data['jobTitle'];
-                                await storage.write(key: "user", value: uid);
-                              } else {
-                                // TODO: error
+      //                             return;
+      //                           }
+      //                           var data = jsonDecode(response.body);
+      //                           var name = nameCaper(data['displayName']);
+      //                           var rollNumber = data['surname'];
+      //                           var email = data['userPrincipalName'];
+      //                           var uid = data['id'];
+      //                           var course = data['jobTitle'];
+      //                           await storage.write(key: "user", value: uid);
+      //                         } else {
+      //                           // TODO: error
 
-                              }
-                            } catch (e) {
-                              // showError(e);
-                            }
-                          },
-                        ),
-                      ],
-                      //],
-                    ),
-        ),
-      ),
+      //                         }
+      //                       } catch (e) {
+      //                         // showError(e);
+      //                       }
+      //                     },
+      //                   ),
+      //                 ],
+      //                 //],
+      //               ),
+      //   ),
+      // ),
     );
   }
 

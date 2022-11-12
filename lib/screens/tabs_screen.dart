@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hackathon_project/screens/all_tags_screen.dart';
+import 'package:hackathon_project/screens/new_group_screen.dart';
 import 'package:hackathon_project/screens/new_tag_screen.dart';
 import '../screens/homescreen.dart';
 
@@ -14,9 +16,9 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   List<Widget> _pages = [
     HomeScreen(),
-    HomeScreen(),
+    AllTagsScreen(),
     NewTagScreen(),
-    HomeScreen(),
+    NewGroupScreen(),
   ];
   int _selectedPageIndex = 0;
   void _selectPage(int index) {

@@ -2,7 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:hackathon_project/screens/all_tags_screen.dart';
+import 'package:hackathon_project/screens/chat_screen.dart';
+import 'package:hackathon_project/screens/homescreen.dart';
+import 'package:hackathon_project/screens/logic_screen.dart';
 import 'package:hackathon_project/screens/login_screen.dart';
+import 'package:hackathon_project/screens/new_group_screen.dart';
+import 'package:hackathon_project/screens/new_tag_screen.dart';
+import 'package:hackathon_project/screens/tabs_screen.dart';
 
 import 'firebase_options.dart';
 import 'package:http/http.dart' as http;
@@ -45,7 +52,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
-      home: LoginScreen(oauth: oauth,),
+      home: TabsScreen(),
       // home: Scaffold(
       //   appBar: AppBar(
       //     title: const Text('Plugin example app'),

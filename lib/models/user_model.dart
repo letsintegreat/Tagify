@@ -24,4 +24,19 @@ class UserModel {
     return user;
   }
 
+  bool evaluateLogic(String logic) {
+    List<String> logics = logic.split("|");
+    for (var i = 0; i < logics.length; i++) {
+      List<String> reqTags = logics[i].split("(")[1].split(")")[0].split("&");
+      int count = 0;
+      for (var j = 0; j < reqTags.length; j++) {
+        if (tags.contains(reqTags[j])) count++;
+      }
+      if (count == reqTags.length) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

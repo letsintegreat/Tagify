@@ -119,8 +119,9 @@ class LoginScreen extends StatelessWidget {
                           height: 200,
                           width: 200,
                           child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 200,
+                            backgroundColor: Color.fromRGBO(108, 52, 217, 1),
+                            radius: 180,
+                            backgroundImage: AssetImage('assets/logo.png'),
                           ),
                         ),
                         const SizedBox(
@@ -128,7 +129,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         Container(
                           margin: const EdgeInsets.all(0),
-                          width: 200,
+                          width: 180,
                           child: const Divider(
                             thickness: 4,
                             color: Colors.white,
@@ -157,11 +158,21 @@ class LoginScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Center(
-                                child: Text(
-                                  'Login with Outlook',
-                                  style: GoogleFonts.inter(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500),
+                                child: Row(
+                                  
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.all(8),
+                                        child:
+                                            Image.asset('assets/outlook.png')),
+                                            const SizedBox(width: 10,),
+                                    Text(
+                                      'Login with Outlook',
+                                      style: GoogleFonts.inter(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

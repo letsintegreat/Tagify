@@ -15,8 +15,8 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('hey there'),
-        backgroundColor: const Color(0xff7A53D9),
-        elevation: 10,
+        backgroundColor: const Color.fromRGBO(108, 52, 217, 0.9),
+        elevation: 0,
       ),
       body: Container(
         color: const Color.fromRGBO(229, 224, 239, 1),

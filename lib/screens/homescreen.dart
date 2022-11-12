@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/card.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('hey there'),
-        backgroundColor: const Color(0xff7A53D9),
-        elevation: 0,
-      ),
-      body: Container(
+    return Container(
         color: const Color.fromRGBO(229, 224, 239, 1),
         child: Container(
           margin: EdgeInsets.only(top: 20),
@@ -34,7 +28,7 @@ class HomeScreen extends StatelessWidget {
             itemCount: 5,
           ),
         ),
-      ),
+      
     );
   }
 }

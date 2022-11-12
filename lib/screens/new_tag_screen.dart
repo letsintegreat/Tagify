@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hackathon_project/models/tag_model.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NewTagScreen extends StatefulWidget {
   const NewTagScreen({super.key});
@@ -12,7 +14,7 @@ class NewTagScreen extends StatefulWidget {
 class _NewTagScreen extends State<NewTagScreen> {
   final TextEditingController _nameController = TextEditingController();
   bool _isPublic = true;
-  static final  validCharacters = RegExp(r'^[a-zA-Z0-9_]+$');
+  static final validCharacters = RegExp(r'^[a-zA-Z0-9_]+$');
 
   void submit(BuildContext context) async {
     String name = _nameController.text;
@@ -56,59 +58,96 @@ class _NewTagScreen extends State<NewTagScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TextField(
-            controller: _nameController,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isPublic = true;
-                      });
-                    },
-                    child: Container(
-                      color: (!_isPublic) ? Colors.white : Colors.green,
-                      height: 56.0,
-                      child: const Text("Public"),
-                    ),
+      body: Container(
+        color: const Color.fromRGBO(229, 224, 239, 1),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 250,
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+              child: TextField(
+                controller: _nameController,
+                textAlign: TextAlign.start,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  hintText: 'Enter the name',
+                  hintStyle: GoogleFonts.poppins(
+                    color: const Color.fromRGBO(140, 142, 151, 1),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
                   ),
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: Colors.grey, width: 1)),
+                  focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(color: Colors.grey, width: 1)),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isPublic = false;
-                      });
-                    },
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: [
+                  Expanded(
                     child: Container(
-                      color: (_isPublic) ? Colors.white : Colors.green,
-                      height: 56.0,
-                      child: const Text("Private"),
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isPublic = true;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                            color: (!_isPublic)
+                                ? Colors.white
+                                : Color.fromRGBO(173, 149, 232, 0.9),
+                          ),
+
+                          
+                          height: 56.0,
+                          child: Center(child:  Text("Public",style: GoogleFonts.inter(fontSize: 18,fontWeight: FontWeight.w600),)),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isPublic = false;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: (_isPublic)
+                              ? Colors.white
+                              : Color.fromRGBO(173, 149, 232, 0.9),),
+                          
+                          height: 56.0,
+                          child: Center(child:  Text("Private",style: GoogleFonts.inter(fontSize: 18,fontWeight: FontWeight.w600),)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
-      floatingActionButton: Builder(
-        builder: (context) {
-          return FloatingActionButton(
-            onPressed: () => submit(context),
-            child: const Icon(Icons.check),
-          );
-        }
-      ),
+      floatingActionButton: Builder(builder: (context) {
+        return FloatingActionButton(
+          backgroundColor: Color.fromRGBO(122, 83, 217, 0.9),
+          onPressed: () => submit(context),
+          child: const Icon(Icons.check),
+        );
+      }),
     );
   }
 }

@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -19,18 +16,18 @@ class _LogicScreen extends State<LogicScreen> {
 
   List<List<String>> buckets = [[]];
   List data = [
-    {"color": Color(0xffff6968)},
-    {"color": Color(0xff7a54ff)},
-    {"color": Color(0xffff8f61)},
-    {"color": Color(0xff2ac3ff)},
-    {"color": Color(0xff5a65ff)},
-    {"color": Color(0xff96da45)},
-    {"color": Color(0xffff6968)},
-    {"color": Color(0xff7a54ff)},
-    {"color": Color(0xffff8f61)},
-    {"color": Color(0xff2ac3ff)},
-    {"color": Color(0xff5a65ff)},
-    {"color": Color(0xff96da45)},
+    {"color": const Color(0xffff6968)},
+    {"color": const Color(0xff7a54ff)},
+    {"color": const Color(0xffff8f61)},
+    {"color": const Color(0xff2ac3ff)},
+    {"color": const Color(0xff5a65ff)},
+    {"color": const Color(0xff96da45)},
+    {"color": const Color(0xffff6968)},
+    {"color": const Color(0xff7a54ff)},
+    {"color": const Color(0xffff8f61)},
+    {"color": const Color(0xff2ac3ff)},
+    {"color": const Color(0xff5a65ff)},
+    {"color": const Color(0xff96da45)},
   ];
 
   @override
@@ -67,7 +64,7 @@ class _LogicScreen extends State<LogicScreen> {
           }
           return Container(
             color: const Color.fromRGBO(229, 224, 239, 1),
-            padding: EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10),
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
@@ -112,7 +109,8 @@ class _LogicScreen extends State<LogicScreen> {
                                       behavior: HitTestBehavior
                                           .opaque, // this ensures nothing is done onTap on the modal
                                       child: Container(
-                                        color: Color.fromRGBO(229, 224, 239, 1),
+                                        color: const Color.fromRGBO(
+                                            229, 224, 239, 1),
                                         padding: const EdgeInsets.only(
                                           top: 5,
                                           bottom: 5,
@@ -120,8 +118,8 @@ class _LogicScreen extends State<LogicScreen> {
                                           left: 5,
                                         ),
                                         child: Card(
-                                          color:
-                                              Color.fromRGBO(229, 224, 239, 1),
+                                          color: const Color.fromRGBO(
+                                              229, 224, 239, 1),
                                           elevation: 10,
                                           child: SingleChildScrollView(
                                             child: Container(
@@ -141,19 +139,22 @@ class _LogicScreen extends State<LogicScreen> {
                                                   ),
                                                   TextField(
                                                     controller: text,
-                                                    textAlign: TextAlign.center,
-                                                    cursorColor:
-                                                        Colors.grey[400],
+                                                    cursorColor: const Color.fromRGBO(82, 45, 174, 1),
                                                     autofocus: true,
+                                                    style: GoogleFonts.inter(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            82, 45, 174, 1)),
                                                     decoration: InputDecoration(
-                                                      hintText:
-                                                          'Enter a tag...',
-                                                      fillColor: Colors.white,
+                                                      hintText: 'Enter a tag',
                                                       hintStyle:
                                                           GoogleFonts.poppins(
                                                         color: const Color
                                                                 .fromRGBO(
-                                                            140, 142, 151, 1),
+                                                            82, 45, 174, 1),
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: 14,
@@ -161,91 +162,97 @@ class _LogicScreen extends State<LogicScreen> {
                                                       border: const OutlineInputBorder(
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          72)),
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  width: 1)),
+                                                                  Radius.circular(
+                                                                      8)),
+                                                          borderSide: BorderSide(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      82,
+                                                                      45,
+                                                                      174,
+                                                                      1),
+                                                              width: 2)),
                                                       focusedBorder: const OutlineInputBorder(
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          72)),
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  width: 1)),
+                                                                  Radius.circular(
+                                                                      8)),
+                                                          borderSide: BorderSide(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      82,
+                                                                      45,
+                                                                      174,
+                                                                      1),
+                                                              width: 2)),
                                                     ),
                                                   ),
                                                   const SizedBox(
-                                                    height: 20,
+                                                    height: 10,
                                                   ),
-                                                  ElevatedButton(
-                                                      style: ButtonStyle(
-                                                          backgroundColor:
-                                                              MaterialStateProperty
-                                                                  .all(const Color
-                                                                          .fromRGBO(
-                                                                      76,
-                                                                      49,
-                                                                      159,
-                                                                      1))),
-                                                      onPressed: () {
-                                                        String name = text.text;
-                                                        if (name.isEmpty) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            const SnackBar(
-                                                              content: Text(
-                                                                  "Tag can't be empty"),
-                                                            ),
-                                                          );
-                                                          return;
-                                                        }
-                                                        name =
-                                                            name.toLowerCase();
-                                                        if (!availableTags
-                                                            .contains(name)) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                  "$name tag doesn't exist."),
-                                                            ),
-                                                          );
-                                                          return;
-                                                        }
-                                                        if (buckets[i]
-                                                            .contains(name)) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                  "$name already exists."),
-                                                            ),
-                                                          );
-                                                          return;
-                                                        }
-                                                        setState(() {
-                                                          buckets[i]
-                                                              .add(text.text);
-                                                        });
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text(
-                                                        'Add ',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      )),
+                                                  SizedBox(
+                                                    width: double.infinity,
+                                                    child: ElevatedButton(
+                                                        style: ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStateProperty
+                                                                    .all(const Color
+                                                                            .fromRGBO(
+                                                                        76,
+                                                                        49,
+                                                                        159,
+                                                                        1))),
+                                                        onPressed: () {
+                                                          String name = text.text;
+                                                          if (name.isEmpty) {
+                                                            ScaffoldMessenger.of(
+                                                                    context)
+                                                                .showSnackBar(
+                                                              const SnackBar(
+                                                                content: Text(
+                                                                    "Tag can't be empty"),
+                                                              ),
+                                                            );
+                                                            return;
+                                                          }
+                                                          name =
+                                                              name.toLowerCase();
+                                                          if (!availableTags
+                                                              .contains(name)) {
+                                                            ScaffoldMessenger.of(
+                                                                    context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                    "$name tag doesn't exist."),
+                                                              ),
+                                                            );
+                                                            return;
+                                                          }
+                                                          if (buckets[i]
+                                                              .contains(name)) {
+                                                            ScaffoldMessenger.of(
+                                                                    context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                    "$name already exists."),
+                                                              ),
+                                                            );
+                                                            return;
+                                                          }
+                                                          setState(() {
+                                                            buckets[i]
+                                                                .add(text.text);
+                                                          });
+                                                          Navigator.pop(context);
+                                                        },
+                                                        child: Text(
+                                                          'Add ',
+                                                          style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400),
+                                                        )),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -256,6 +263,9 @@ class _LogicScreen extends State<LogicScreen> {
                                   });
                             },
                             child: const Text('Add Tag')),
+                        const SizedBox(
+                          height: 8.0,
+                        )
                       ]),
                 );
               },
@@ -266,13 +276,13 @@ class _LogicScreen extends State<LogicScreen> {
       //hi
       floatingActionButton: Builder(builder: (context) {
         return FloatingActionButton(
-          backgroundColor: const Color.fromRGBO(76, 49, 159, 1),
+          backgroundColor: const Color.fromRGBO(122, 83, 217, 0.9),
           onPressed: () {
-            String logic = "(" + buckets[0].join("&") + ")";
+            String logic = "(${buckets[0].join("&")})";
             for (var i = 1; i < buckets.length; i++) {
               if (buckets[i].isEmpty) continue;
-              logic = logic + "|";
-              logic = logic + "(" + buckets[i].join("&") + ")";
+              logic = "$logic|";
+              logic = "$logic(${buckets[i].join("&")})";
             }
             SchedulerBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pop(logic);

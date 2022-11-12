@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon_project/models/user_model.dart';
+import 'package:hackathon_project/screens/tabs_screen.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatelessWidget {
@@ -64,9 +66,9 @@ class LoginScreen extends StatelessWidget {
           // Already there
           UserModel myUser =
               UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Hey " + myUser.name),
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => TabsScreen(oauth: oauth),
             ),
           );
         }
@@ -83,10 +85,21 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<String?>(
-        future: getLogin(),
-        builder: (context, snapshot) => (snapshot.hasData)
-            ? Text("Logged in!")
-            : Stack(
+          future: getLogin(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => TabsScreen(
+                      oauth: oauth,
+                    ),
+                  ),
+                );
+              });
+              return Text("Logged in!");
+            } else {
+              return Stack(
                 children: [
                   Container(
                     width: double.infinity,
@@ -122,7 +135,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Project X',
+                          'Tagify',
                           style: GoogleFonts.inter(
                               fontSize: 40,
                               fontWeight: FontWeight.w300,
@@ -158,8 +171,9 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-      ),
+              );
+            }
+          }),
     );
   }
 }

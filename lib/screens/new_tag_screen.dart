@@ -49,7 +49,7 @@ class _NewTagScreen extends State<NewTagScreen> {
     tags.doc(name).set(newTag.toJson());
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(name + " has been created"),
+        content: Text("$name has been created"),
       ),
     );
   }
@@ -65,29 +65,36 @@ class _NewTagScreen extends State<NewTagScreen> {
               height: 250,
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
               child: TextField(
                 controller: _nameController,
                 textAlign: TextAlign.start,
+                autofocus: true,
+                cursorColor: Color.fromRGBO(82, 45, 174, 1),
+                style: GoogleFonts.inter(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromRGBO(82, 45, 174, 1)),
                 decoration: InputDecoration(
-                  fillColor: Colors.white,
-                  hintText: 'Enter the name',
+                  hintText: 'Enter tag name',
                   hintStyle: GoogleFonts.poppins(
-                    color: const Color.fromRGBO(140, 142, 151, 1),
+                    color: Color.fromRGBO(82, 45, 174, 1),
                     fontWeight: FontWeight.w500,
-                    fontSize: 14,
+                    fontSize: 16,
                   ),
                   border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Colors.grey, width: 1)),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
                   focusedBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8)),
-                      borderSide: BorderSide(color: Colors.grey, width: 1)),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
                 ),
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 12),
+              margin: const EdgeInsets.symmetric(horizontal: 12),
               child: Row(
                 children: [
                   Expanded(
@@ -101,15 +108,19 @@ class _NewTagScreen extends State<NewTagScreen> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(8),
                             color: (!_isPublic)
                                 ? Colors.white
-                                : Color.fromRGBO(173, 149, 232, 0.9),
+                                : const Color.fromRGBO(173, 149, 232, 0.9),
                           ),
-
-                          
                           height: 56.0,
-                          child: Center(child:  Text("Public",style: GoogleFonts.inter(fontSize: 18,fontWeight: FontWeight.w600),)),
+                          child: Center(
+                            child: Text(
+                              "Public",
+                              style: GoogleFonts.inter(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -124,12 +135,20 @@ class _NewTagScreen extends State<NewTagScreen> {
                           });
                         },
                         child: Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: (_isPublic)
-                              ? Colors.white
-                              : Color.fromRGBO(173, 149, 232, 0.9),),
-                          
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: (_isPublic)
+                                ? Colors.white
+                                : const Color.fromRGBO(173, 149, 232, 0.9),
+                          ),
                           height: 56.0,
-                          child: Center(child:  Text("Private",style: GoogleFonts.inter(fontSize: 18,fontWeight: FontWeight.w600),)),
+                          child: Center(
+                            child: Text(
+                              "Private",
+                              style: GoogleFonts.inter(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -142,7 +161,7 @@ class _NewTagScreen extends State<NewTagScreen> {
       ),
       floatingActionButton: Builder(builder: (context) {
         return FloatingActionButton(
-          backgroundColor: Color.fromRGBO(122, 83, 217, 0.9),
+          backgroundColor: const Color.fromRGBO(122, 83, 217, 0.9),
           onPressed: () => submit(context),
           child: const Icon(Icons.check),
         );

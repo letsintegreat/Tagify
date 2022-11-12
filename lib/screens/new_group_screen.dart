@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hackathon_project/models/group_model.dart';
@@ -15,88 +14,110 @@ class NewGroupScreen extends StatefulWidget {
 }
 
 class _NewGroupScreen extends State<NewGroupScreen> {
-  TextEditingController _nickNameCont = TextEditingController();
-  TextEditingController _logicCont = TextEditingController();
+  final TextEditingController _nickNameCont = TextEditingController();
+  final TextEditingController _logicCont = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        color: const Color.fromRGBO(229, 224, 239, 1),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
           children: [
-            SizedBox(
-              height: 200,
-            ),
+            const Spacer(),
             TextField(
               autofocus: true,
               controller: _nickNameCont,
-              cursorColor: Colors.grey[400],
-              textAlign: TextAlign.center,
+              cursorColor: const Color.fromRGBO(82, 45, 174, 1),
+              style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: const Color.fromRGBO(82, 45, 174, 1)),
               decoration: InputDecoration(
                 hintText: 'Group Name',
-                fillColor: Colors.white,
                 hintStyle: GoogleFonts.poppins(
-                  color: const Color.fromRGBO(140, 142, 151, 1),
+                  color: const Color.fromRGBO(82, 45, 174, 1),
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                 ),
                 border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(72)),
-                    borderSide: BorderSide(color: Colors.grey, width: 1)),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
                 focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(72)),
-                    borderSide: BorderSide(color: Colors.grey, width: 1)),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
               ),
             ),
-            SizedBox(
-              height: 20,
+            const SizedBox(
+              height: 40,
             ),
             TextField(
               controller: _logicCont,
-              textAlign: TextAlign.center,
-              cursorColor: Colors.grey[400],
+              cursorColor: const Color.fromRGBO(82, 45, 174, 1),
               autofocus: true,
+              style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: const Color.fromRGBO(82, 45, 174, 1)),
               decoration: InputDecoration(
-                hintText: 'Group Logic',
-                fillColor: Colors.white,
+                hintText: 'Logic',
                 hintStyle: GoogleFonts.poppins(
-                  color: const Color.fromRGBO(140, 142, 151, 1),
+                  color: const Color.fromRGBO(82, 45, 174, 1),
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                 ),
+                disabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
                 border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(72)),
-                    borderSide: BorderSide(color: Colors.grey, width: 1)),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
                 focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(72)),
-                    borderSide: BorderSide(color: Colors.grey, width: 1)),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    borderSide: BorderSide(
+                        color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
               ),
               enabled: false,
             ),
+            const SizedBox(
+              height: 10.0,
+            ),
             SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
+              width: double.infinity,
+              height: 40.0,
+              child: ElevatedButton(
+                style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                      const Color.fromRGBO(76, 49, 159, 1))),
-              onPressed: () async {
-                try {
-                  String logic = await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => LogicScreen(),
-                    ),
-                  );
-                  _logicCont.text = logic;
-                } catch (e) {}
-              },
-              child: Text("Add Logic"),
+                    const Color.fromRGBO(122, 83, 217, 0.9),
+                  ),
+                ),
+                onPressed: () async {
+                  try {
+                    String logic = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const LogicScreen(),
+                      ),
+                    );
+                    _logicCont.text = logic;
+                  } catch (e) {}
+                },
+                child: Text(
+                  "Add Logic",
+                  style: GoogleFonts.inter(
+                      fontSize: 14, fontWeight: FontWeight.w400),
+                ),
+              ),
             ),
+            const Spacer(),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromRGBO(76, 49, 159, 1),
+        backgroundColor: const Color.fromRGBO(122, 83, 217, 0.9),
         onPressed: () async {
           String name = _nickNameCont.text;
           String logic = _logicCont.text;
@@ -116,30 +137,30 @@ class _NewGroupScreen extends State<NewGroupScreen> {
             );
             return;
           }
-          String? userid = await FlutterSecureStorage().read(key: "user");
+          String? userid = await const FlutterSecureStorage().read(key: "user");
           GroupModel newGroup = GroupModel(name: name, logic: logic);
           newGroup.users.add(userid!);
           var snapshot =
               await FirebaseFirestore.instance.collection("users").get();
-          snapshot.docs.forEach((element) {
+          for (var element in snapshot.docs) {
             UserModel currUser = UserModel.fromJson(element.data());
-            if (currUser.id == userid) return;
+            if (currUser.id == userid) continue;
             if (currUser.evaluateLogic(logic)) {
               newGroup.users.add(currUser.id);
             }
-          });
+          }
           FirebaseFirestore.instance
               .collection("groups")
               .add(newGroup.toJson());
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                "${name} has been created with ${newGroup.users.length} users.",
+                "$name has been created with ${newGroup.users.length} users.",
               ),
             ),
           );
         },
-        child: Icon(Icons.check),
+        child: const Icon(Icons.check),
       ),
     );
   }

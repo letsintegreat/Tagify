@@ -33,32 +33,41 @@ class _NewMessageState extends State<NewMessage> {
       child: Row(
         children: [
           Expanded(
-              child: TextField(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
             controller: _controller,
-            decoration: InputDecoration(
-              hintText: 'Enter a message..',
-              fillColor: Colors.white,
-              hintStyle: GoogleFonts.poppins(
-                color: const Color.fromRGBO(140, 142, 151, 1),
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-              ),
-              border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(72)),
-                  borderSide: BorderSide(color: Colors.grey, width: 1)),
-              focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(72)),
-                  borderSide: BorderSide(color: Colors.grey, width: 1)),
+            cursorColor: const Color.fromRGBO(82, 45, 174, 1),
+                style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: const Color.fromRGBO(82, 45, 174, 1)),
+                decoration: InputDecoration(
+                  hintText: 'Type something...',
+                  hintStyle: GoogleFonts.poppins(
+                    color: const Color.fromRGBO(82, 45, 174, 1),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
+                  focusedBorder: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderSide: BorderSide(
+                          color: Color.fromRGBO(82, 45, 174, 1), width: 2)),
             ),
-          )),
+          ),
+              )),
           CircleAvatar(
             radius: 28,
             backgroundColor: const Color.fromRGBO(122, 83, 217, 1),
             child: IconButton(
               color: Colors.white,
               onPressed: () async {
-                String _enteredMessage = _controller.text;
-                if (_enteredMessage.trim().isEmpty) {
+                String enteredMessage = _controller.text;
+                if (enteredMessage.trim().isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Please Type in a message'),
@@ -68,7 +77,7 @@ class _NewMessageState extends State<NewMessage> {
                   MessageModel newMessage = MessageModel(
                     name: widget.userModel.name,
                     id: widget.userid,
-                    text: _enteredMessage,
+                    text: enteredMessage,
                     timeStamp: DateTime.now().toString(),
                   );
                   widget.groupModel.messages.add(newMessage);
@@ -76,19 +85,8 @@ class _NewMessageState extends State<NewMessage> {
                       .collection("groups")
                       .doc(widget.groupid)
                       .set(widget.groupModel.toJson());
+                  _controller.text = "";
                 }
-
-                // FocusScope.of(context).unfocus();
-                // final googleSignIn = GoogleSignIn();
-                // final googleAccount = await googleSignIn.signIn();
-                // FirebaseFirestore.instance.collection('chat').add(
-                //   {
-                //     'text': _enteredMessage,
-                //     'createdAt': Timestamp.now(),
-                //     'userID': googleAccount?.email,
-                //   },
-                // );
-                // _controller.clear();
               },
               icon: const Icon(Icons.send, size: 22),
             ),

@@ -52,7 +52,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
-      home: TabsScreen(),
+      home: LoginScreen(
+        oauth: oauth,
+      ),
       // home: Scaffold(
       //   appBar: AppBar(
       //     title: const Text('Plugin example app'),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon_project/models/group_model.dart';
@@ -22,7 +23,9 @@ class GroupInfoScreen extends StatelessWidget {
         future: FirebaseFirestore.instance.collection("users").get(),
         builder: ((context, snapshot) {
           if (!snapshot.hasData) {
-            return const Text("Loading");
+            return const SpinKitWave(
+              color: Color.fromRGBO(122, 83, 217, 0.9),
+            );
           }
           List<UserModel> participants = [];
           for (var element in snapshot.data!.docs) {

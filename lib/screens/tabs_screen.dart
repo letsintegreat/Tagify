@@ -13,9 +13,9 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   List<Widget> _pages = [
+    HomeScreen(),
+    HomeScreen(),
     NewTagScreen(),
-    HomeScreen(),
-    HomeScreen(),
     HomeScreen(),
   ];
   int _selectedPageIndex = 0;

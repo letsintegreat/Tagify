@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-
 class Messages extends StatelessWidget {
   var _userEmail = "";
+  var isMe = true;
 
   Future<void> cred() async {
     final _storage = FlutterSecureStorage();
@@ -14,7 +14,6 @@ class Messages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     // return StreamBuilder(
     //   stream: FirebaseFirestore.instance
     //       .collection('/chat')
@@ -30,15 +29,14 @@ class Messages extends StatelessWidget {
 
     //     return FutureBuilder(
     //       future: cred(),
-    //       builder: (context, snapshot) => 
+    //       builder: (context, snapshot) =>
     return ListView.builder(
-              reverse: true,
-              itemCount: 10,
-              itemBuilder: (context, index) => MessageBubble(
-                  message: 'hi there,this is priyanshu',
-                  isMe: true));
-        // );
-      // }),
+        reverse: true,
+        itemCount: 100,
+        itemBuilder: (context, index) =>
+            MessageBubble(message: 'hi there,this is priyanshu', isMe: (isMe=!isMe)));
+    // );
+    // }),
     // );
   }
 }

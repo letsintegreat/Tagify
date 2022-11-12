@@ -13,7 +13,7 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: !isMe? MainAxisAlignment.start : MainAxisAlignment.end,
+      mainAxisAlignment: isMe? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Container(
           width: 200,
@@ -29,6 +29,7 @@ class MessageBubble extends StatelessWidget {
             message,
             style: GoogleFonts.inter(
                 fontSize: 16,
+                fontWeight: FontWeight.w500,
                 color: !isMe
                     ? const Color.fromRGBO(108, 52, 217, 0.9)
                     : Colors.white),

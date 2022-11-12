@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hackathon_project/models/group_model.dart';
 import 'package:hackathon_project/models/user_model.dart';
 import 'package:hackathon_project/screens/logic_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NewGroupScreen extends StatefulWidget {
   const NewGroupScreen({super.key});
@@ -19,36 +20,83 @@ class _NewGroupScreen extends State<NewGroupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          TextField(
-            controller: _nickNameCont,
-          ),
-          Row(
-            children: [
-              Expanded(
-                  child: TextField(
-                controller: _logicCont,
-                enabled: false,
-              )),
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    String logic = await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => LogicScreen(),
-                      ),
-                    );
-                    _logicCont.text = logic;
-                  } catch (e) {}
-                },
-                child: Text("click"),
-              )
-            ],
-          )
-        ],
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 200,
+            ),
+            TextField(
+              autofocus: true,
+              controller: _nickNameCont,
+              cursorColor: Colors.grey[400],
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: 'Group Name',
+                fillColor: Colors.white,
+                hintStyle: GoogleFonts.poppins(
+                  color: const Color.fromRGBO(140, 142, 151, 1),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
+                border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(72)),
+                    borderSide: BorderSide(color: Colors.grey, width: 1)),
+                focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(72)),
+                    borderSide: BorderSide(color: Colors.grey, width: 1)),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextField(
+              controller: _logicCont,
+              textAlign: TextAlign.center,
+              cursorColor: Colors.grey[400],
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: 'Group Logic',
+                fillColor: Colors.white,
+                hintStyle: GoogleFonts.poppins(
+                  color: const Color.fromRGBO(140, 142, 151, 1),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                ),
+                border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(72)),
+                    borderSide: BorderSide(color: Colors.grey, width: 1)),
+                focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(72)),
+                    borderSide: BorderSide(color: Colors.grey, width: 1)),
+              ),
+              enabled: false,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      const Color.fromRGBO(76, 49, 159, 1))),
+              onPressed: () async {
+                try {
+                  String logic = await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => LogicScreen(),
+                    ),
+                  );
+                  _logicCont.text = logic;
+                } catch (e) {}
+              },
+              child: Text("Add Logic"),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(76, 49, 159, 1),
         onPressed: () async {
           String name = _nickNameCont.text;
           String logic = _logicCont.text;

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ class NewMessage extends StatefulWidget {
 
 class _NewMessageState extends State<NewMessage> {
   var _enteredMessage = "";
-  final _controller = new TextEditingController();
+  final _controller =  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,27 +46,32 @@ class _NewMessageState extends State<NewMessage> {
           )),
           CircleAvatar(
             radius: 28,
-            backgroundColor: Color.fromRGBO(173, 149, 232, 0.9),
+            backgroundColor: const Color.fromRGBO(122, 83, 217, 1),
             child: IconButton(
-              color: ,
-                onPressed: _enteredMessage.trim().isEmpty
-                    ? null
-                    : () async {
-                      
-                        // FocusScope.of(context).unfocus();
-                        // final googleSignIn = GoogleSignIn();
-                        // final googleAccount = await googleSignIn.signIn();
-                        // FirebaseFirestore.instance.collection('chat').add(
-                        //   {
-                        //     'text': _enteredMessage,
-                        //     'createdAt': Timestamp.now(),
-                        //     'userID': googleAccount?.email,
-                        //   },
-                        // );
-                        // _controller.clear();
-                      },
-                icon: const Icon(Icons.send,size: 22),
-                ),
+              color: Colors.white,
+              onPressed: () async {
+                _enteredMessage.trim().isEmpty
+                    ? ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please Type in a message'),
+                        ),
+                      )
+                    : print(_enteredMessage);
+
+                // FocusScope.of(context).unfocus();
+                // final googleSignIn = GoogleSignIn();
+                // final googleAccount = await googleSignIn.signIn();
+                // FirebaseFirestore.instance.collection('chat').add(
+                //   {
+                //     'text': _enteredMessage,
+                //     'createdAt': Timestamp.now(),
+                //     'userID': googleAccount?.email,
+                //   },
+                // );
+                // _controller.clear();
+              },
+              icon: const Icon(Icons.send, size: 22),
+            ),
           ),
         ],
       ),

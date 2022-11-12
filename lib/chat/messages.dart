@@ -31,10 +31,13 @@ class Messages extends StatelessWidget {
     //       future: cred(),
     //       builder: (context, snapshot) =>
     return ListView.builder(
-        reverse: true,
-        itemCount: 100,
-        itemBuilder: (context, index) =>
-            MessageBubble(message: 'hi there,this is priyanshu', isMe: (isMe=!isMe)));
+      reverse: true,
+      itemCount: 100,
+      itemBuilder: (context, index) => MessageBubble(
+          message: 'hi there, this is GeekyPS',
+          isMe: (isMe=!isMe),
+          Sender: 'Priyanshu Srivastava'),
+    );
     // );
     // }),
     // );

@@ -16,7 +16,7 @@ class MessageBubble extends StatelessWidget {
       mainAxisAlignment: !isMe? MainAxisAlignment.start : MainAxisAlignment.end,
       children: [
         Container(
-          width: 140,
+          width: 200,
           decoration: BoxDecoration(
             
               borderRadius: const BorderRadius.all(Radius.circular(8)),

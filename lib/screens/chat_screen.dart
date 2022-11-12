@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hackathon_project/models/group_model.dart';
 import 'package:hackathon_project/models/user_model.dart';
+import 'package:hackathon_project/screens/group_info_screen.dart';
 
 import '../chat/messages.dart';
 import '../chat/new_message.dart';
@@ -53,9 +54,23 @@ class _ChatScreenState extends State<ChatScreen> {
                     GroupModel.fromJson(snapshot.data!.data()!);
                 return Scaffold(
                   appBar: AppBar(
-                    title: Tag(tagName: groupModel.name),
+                    title: Text(groupModel.name),
                     backgroundColor: const Color.fromRGBO(108, 52, 217, 0.9),
                     elevation: 0,
+                    actions: <Widget>[
+                      Builder(builder: (context) {
+                        return IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      GroupInfoScreen(groupModel: groupModel),
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.info));
+                      }),
+                    ],
                   ),
                   body: Container(
                     color: const Color.fromRGBO(229, 224, 239, 1),

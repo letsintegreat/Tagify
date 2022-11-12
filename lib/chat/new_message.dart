@@ -1,17 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hackathon_project/models/group_model.dart';
+import 'package:hackathon_project/models/message_model.dart';
+import 'package:hackathon_project/models/user_model.dart';
 
 class NewMessage extends StatefulWidget {
-  const NewMessage({super.key});
+  String userid;
+  GroupModel groupModel;
+  String groupid;
+  UserModel userModel;
+  NewMessage(
+      {required this.userid,
+      required this.groupModel,
+      required this.groupid,
+      required this.userModel,
+      super.key});
 
   @override
   State<NewMessage> createState() => _NewMessageState();
 }
 
 class _NewMessageState extends State<NewMessage> {
-  var _enteredMessage = "";
-  final _controller =  TextEditingController();
+  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +50,6 @@ class _NewMessageState extends State<NewMessage> {
                   borderRadius: BorderRadius.all(Radius.circular(72)),
                   borderSide: BorderSide(color: Colors.grey, width: 1)),
             ),
-            onChanged: (value) {
-              setState(() {
-                _enteredMessage = value;
-              });
-            },
           )),
           CircleAvatar(
             radius: 28,
@@ -50,13 +57,26 @@ class _NewMessageState extends State<NewMessage> {
             child: IconButton(
               color: Colors.white,
               onPressed: () async {
-                _enteredMessage.trim().isEmpty
-                    ? ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please Type in a message'),
-                        ),
-                      )
-                    : print(_enteredMessage);
+                String _enteredMessage = _controller.text;
+                if (_enteredMessage.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please Type in a message'),
+                    ),
+                  );
+                } else {
+                  MessageModel newMessage = MessageModel(
+                    name: widget.userModel.name,
+                    id: widget.userid,
+                    text: _enteredMessage,
+                    timeStamp: DateTime.now().toString(),
+                  );
+                  widget.groupModel.messages.add(newMessage);
+                  FirebaseFirestore.instance
+                      .collection("groups")
+                      .doc(widget.groupid)
+                      .set(widget.groupModel.toJson());
+                }
 
                 // FocusScope.of(context).unfocus();
                 // final googleSignIn = GoogleSignIn();

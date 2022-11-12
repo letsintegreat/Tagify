@@ -1,45 +1,28 @@
+import 'package:hackathon_project/models/group_model.dart';
+import 'package:hackathon_project/models/message_model.dart';
+
 import './message_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Messages extends StatelessWidget {
-  var _userEmail = "";
-  var isMe = true;
+  String userid;
+  GroupModel groupModel;
 
-  Future<void> cred() async {
-    final _storage = FlutterSecureStorage();
-    _userEmail = await _storage.read(key: 'user') ?? "";
-  }
+  Messages({required this.groupModel, required this.userid, super.key});
 
   @override
   Widget build(BuildContext context) {
-    // return StreamBuilder(
-    //   stream: FirebaseFirestore.instance
-    //       .collection('/chat')
-    //       .orderBy('createdAt', descending: true)
-    //       .snapshots(),
-    //   builder: ((context, snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return const Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     }
-    //     final chatDocs = snapshot.data!.docs;
-
-    //     return FutureBuilder(
-    //       future: cred(),
-    //       builder: (context, snapshot) =>
+    List<MessageModel> messages = groupModel.messages;
+    messages.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
     return ListView.builder(
       reverse: true,
-      itemCount: 100,
+      itemCount: messages.length,
       itemBuilder: (context, index) => MessageBubble(
-          message: 'hi there, this is GeekyPS',
-          isMe: (isMe=!isMe),
-          Sender: 'Priyanshu Srivastava'),
+          message: messages[index].text,
+          isMe: messages[index].id != userid,
+          Sender: messages[index].name),
     );
-    // );
-    // }),
-    // );
   }
 }

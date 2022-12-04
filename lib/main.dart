@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hackathon_project/screens/all_tags_screen.dart';
 import 'package:hackathon_project/screens/chat_screen.dart';
@@ -24,37 +25,59 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  try {
+    if (FirebaseAuth.instance.currentUser != null) {
+      FirebaseAuth.instance.currentUser!.reload();
+    }
+  } on Exception catch (e) {
+    print(e.toString());
+  }
+  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        runApp(MyAppAuth());
+      } else {
+        runApp(MyAppNoAuth());
+      }
+    });
+  
 }
 
-final navigatorKey = GlobalKey<NavigatorState>();
-
-class MyApp extends StatelessWidget {
-  static final Config config = Config(
-    tenant: "850aa78d-94e1-4bc6-9cf3-8c11b530701c",
-    clientId: "dec8fa98-d4c4-42ed-9ff6-2b6c421238be",
-    scope: "user.read openid profile offline_access",
-    redirectUri:
-        "msauth://com.example.hackathon_project/2jmj7l5rSw0yVb%2FvlWAYkK%2FYBwk%3D",
-    navigatorKey: navigatorKey,
-  );
-  final AadOAuth oauth = AadOAuth(config);
-
-  MyApp({super.key});
-
-  Future<String?> getLogin() async {
-    const storage = FlutterSecureStorage();
-    String? value = await storage.read(key: "user");
-    return value;
+class MyAppNoAuth extends StatelessWidget {
+  MyAppNoAuth({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: TabsScreen(),
+    );
   }
+}
+
+class MyAppAuth extends StatelessWidget {
+  // static final Config config = Config(
+  //   tenant: "850aa78d-94e1-4bc6-9cf3-8c11b530701c",
+  //   clientId: "dec8fa98-d4c4-42ed-9ff6-2b6c421238be",
+  //   scope: "user.read openid profile offline_access",
+  //   redirectUri:
+  //       "msauth://com.example.hackathon_project/2jmj7l5rSw0yVb%2FvlWAYkK%2FYBwk%3D",
+  //   navigatorKey: navigatorKey,
+  // );
+  // final AadOAuth oauth = AadOAuth(config);
+
+  MyAppAuth({super.key});
+
+  // Future<String?> getLogin() async {
+  //   const storage = FlutterSecureStorage();
+  //   String? value = await storage.read(key: "user");
+  //   return value;
+  // }
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
-      navigatorKey: navigatorKey,
-      home: LoginScreen(
-        oauth: oauth,
-      ),
+      home: LoginScreen(),
       // home: Scaffold(
       //   appBar: AppBar(
       //     title: const Text('Plugin example app'),
@@ -111,27 +134,27 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  String nameCaper(String name) {
-    name = name.toLowerCase();
-    String newname = name[0].toUpperCase();
-    for (var i = 1; i < name.length; i++) {
-      newname = newname + name[i];
-      if (name[i] == ' ') {
-        newname = newname + name[i + 1].toUpperCase();
-        i++;
-      }
-    }
-    return newname;
-  }
+  // String nameCaper(String name) {
+  //   name = name.toLowerCase();
+  //   String newname = name[0].toUpperCase();
+  //   for (var i = 1; i < name.length; i++) {
+  //     newname = newname + name[i];
+  //     if (name[i] == ' ') {
+  //       newname = newname + name[i + 1].toUpperCase();
+  //       i++;
+  //     }
+  //   }
+  //   return newname;
+  // }
 
-  void showMessage(String text, BuildContext context) {
-    var alert = AlertDialog(content: Text(text), actions: <Widget>[
-      TextButton(
-          child: const Text('Ok'),
-          onPressed: () {
-            Navigator.pop(context);
-          })
-    ]);
-    showDialog(context: context, builder: (BuildContext context) => alert);
-  }
+  // void showMessage(String text, BuildContext context) {
+  //   var alert = AlertDialog(content: Text(text), actions: <Widget>[
+  //     TextButton(
+  //         child: const Text('Ok'),
+  //         onPressed: () {
+  //           Navigator.pop(context);
+  //         })
+  //   ]);
+  //   showDialog(context: context, builder: (BuildContext context) => alert);
+  // }
 }

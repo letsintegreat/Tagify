@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:aad_oauth/aad_oauth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,8 +14,8 @@ import '../screens/homescreen.dart';
 import 'package:http/http.dart';
 
 class TabsScreen extends StatefulWidget {
-  AadOAuth oauth;
-  TabsScreen({required this.oauth, super.key});
+  // AadOAuth oauth;
+  TabsScreen({super.key});
   @override
   State<TabsScreen> createState() => _TabsScreenState();
 }
@@ -44,12 +45,7 @@ class _TabsScreenState extends State<TabsScreen> {
           Builder(builder: (context) {
             return IconButton(
                 onPressed: () async {
-                  await FlutterSecureStorage().delete(key: "user");
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(oauth: widget.oauth),
-                    ),
-                  );
+                  await FirebaseAuth.instance.signOut();
                 },
                 icon: Icon(Icons.logout));
           }),

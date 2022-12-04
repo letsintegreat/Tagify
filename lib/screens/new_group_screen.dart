@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hackathon_project/models/group_model.dart';
@@ -137,9 +138,9 @@ class _NewGroupScreen extends State<NewGroupScreen> {
             );
             return;
           }
-          String? userid = await const FlutterSecureStorage().read(key: "user");
+          String? userid = FirebaseAuth.instance.currentUser!.uid;
           GroupModel newGroup = GroupModel(name: name, logic: logic);
-          newGroup.users.add(userid!);
+          newGroup.users.add(userid);
           var snapshot =
               await FirebaseFirestore.instance.collection("users").get();
           for (var element in snapshot.docs) {

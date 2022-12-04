@@ -194,7 +194,7 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Container(
                                 margin: EdgeInsets.all(8),
-                                child: Image.asset('assets/outlook.png')),
+                                child: Image.asset('assets/google.png')),
                             const SizedBox(
                               width: 10,
                             ),

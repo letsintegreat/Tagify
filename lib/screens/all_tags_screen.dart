@@ -76,10 +76,42 @@ class _AllTagsScreen extends State<AllTagsScreen> {
                   ),
                   Wrap(
                     children: _assignedTags
-                        .map((e) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Tag(tagName: e),
-                            ))
+                        .map((e) =>
+                            Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Tag(tagName: e),
+                                      Container(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                          const Color.fromRGBO(122, 83, 217, 0.9),
+                                          child: IconButton(
+                                            onPressed: () async {
+                                              String tagInQuestion = e;
+                                              myUser.tags.remove(tagInQuestion);
+                                              FirebaseFirestore.instance
+                                                  .collection("users")
+                                                  .doc(userid)
+                                                  .set(myUser.toJson());
+                                              setState(() {
+                                                _unassignedTags.add(tagInQuestion);
+                                                _assignedTags.remove(tagInQuestion);
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.remove,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+
+                        )
                         .toList(),
                   ),
                   const SizedBox(

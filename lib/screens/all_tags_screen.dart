@@ -76,10 +76,63 @@ class _AllTagsScreen extends State<AllTagsScreen> {
                   ),
                   Wrap(
                     children: _assignedTags
-                        .map((e) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Tag(tagName: e),
-                            ))
+                        .map((e) =>
+                            Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Tag(tagName: e),
+                                      Container(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                          const Color.fromRGBO(122, 83, 217, 0.9),
+                                          child: IconButton(
+                                            onPressed: () async {
+                                              String tagInQuestion = e;
+                                              myUser.tags.remove(tagInQuestion);
+                                              FirebaseFirestore.instance
+                                                  .collection("users")
+                                                  .doc(userid)
+                                                  .set(myUser.toJson());
+                                              var snapshot = await FirebaseFirestore
+                                                  .instance
+                                                  .collection("groups")
+                                                  .get();
+                                              snapshot.docs.forEach(
+                                                    (element) async {
+                                                  GroupModel currGroup =
+                                                  GroupModel.fromJson(element.data());
+                                                  if (!currGroup.users
+                                                      .contains(myUser.id)) {
+                                                    if (myUser
+                                                        .evaluateLogic(currGroup.logic)) {
+                                                      currGroup.users.add(myUser.id);
+                                                      await FirebaseFirestore.instance
+                                                          .collection("groups")
+                                                          .doc(element.id)
+                                                          .set(currGroup.toJson());
+                                                    }
+                                                  }
+                                                },
+                                              );
+                                              setState(() {
+                                                _unassignedTags.add(tagInQuestion);
+                                                _assignedTags.remove(tagInQuestion);
+                                              });
+                                            },
+                                            icon: const Icon(
+                                              Icons.remove,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+
+                        )
                         .toList(),
                   ),
                   const SizedBox(

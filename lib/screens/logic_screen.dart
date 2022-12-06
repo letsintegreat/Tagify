@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon_project/widgets/tags.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class LogicScreen extends StatefulWidget {
   const LogicScreen({super.key});
@@ -65,9 +66,10 @@ class _LogicScreen extends State<LogicScreen> {
           return Container(
             color: const Color.fromRGBO(229, 224, 239, 1),
             padding: const EdgeInsets.only(top: 10),
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, crossAxisSpacing: 5, mainAxisSpacing: 5),
+            child: MasonryGridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
               itemCount: buckets.length,
               itemBuilder: (context, i) {
                 TextEditingController text = TextEditingController();
@@ -89,7 +91,28 @@ class _LogicScreen extends State<LogicScreen> {
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white)),
 
-                        Tag(tagName: buckets[i].join(",")),
+                        Container(
+                          constraints: const BoxConstraints(minHeight: 40, minWidth: 100),
+                          width: 100,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 10),
+                          decoration: const BoxDecoration(
+                              color: Color.fromRGBO(82, 45, 174, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(36))),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                for (var j = 0; j != buckets[i].length; j++)
+                                  Text(
+                                    buckets[i][j],
+                                    style: GoogleFonts.inter(
+                                        color: Colors.white, fontSize: 12),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ),
 
                         // Text(buckets[i].join("\n"),
                         //     style: GoogleFonts.inter(
@@ -106,8 +129,8 @@ class _LogicScreen extends State<LogicScreen> {
                                   builder: (BuildContext context) {
                                     return GestureDetector(
                                       onTap: () {},
-                                      behavior: HitTestBehavior
-                                          .opaque, // this ensures nothing is done onTap on the modal
+                                      behavior: HitTestBehavior.opaque,
+                                      // this ensures nothing is done onTap on the modal
                                       child: Container(
                                         color: const Color.fromRGBO(
                                             229, 224, 239, 1),
@@ -139,7 +162,9 @@ class _LogicScreen extends State<LogicScreen> {
                                                   ),
                                                   TextField(
                                                     controller: text,
-                                                    cursorColor: const Color.fromRGBO(82, 45, 174, 1),
+                                                    cursorColor:
+                                                        const Color.fromRGBO(
+                                                            82, 45, 174, 1),
                                                     autofocus: true,
                                                     style: GoogleFonts.inter(
                                                         fontSize: 14,
@@ -203,10 +228,11 @@ class _LogicScreen extends State<LogicScreen> {
                                                                         159,
                                                                         1))),
                                                         onPressed: () {
-                                                          String name = text.text;
+                                                          String name =
+                                                              text.text;
                                                           if (name.isEmpty) {
-                                                            ScaffoldMessenger.of(
-                                                                    context)
+                                                            ScaffoldMessenger
+                                                                    .of(context)
                                                                 .showSnackBar(
                                                               const SnackBar(
                                                                 content: Text(
@@ -215,12 +241,12 @@ class _LogicScreen extends State<LogicScreen> {
                                                             );
                                                             return;
                                                           }
-                                                          name =
-                                                              name.toLowerCase();
+                                                          name = name
+                                                              .toLowerCase();
                                                           if (!availableTags
                                                               .contains(name)) {
-                                                            ScaffoldMessenger.of(
-                                                                    context)
+                                                            ScaffoldMessenger
+                                                                    .of(context)
                                                                 .showSnackBar(
                                                               SnackBar(
                                                                 content: Text(
@@ -231,8 +257,8 @@ class _LogicScreen extends State<LogicScreen> {
                                                           }
                                                           if (buckets[i]
                                                               .contains(name)) {
-                                                            ScaffoldMessenger.of(
-                                                                    context)
+                                                            ScaffoldMessenger
+                                                                    .of(context)
                                                                 .showSnackBar(
                                                               SnackBar(
                                                                 content: Text(
@@ -245,12 +271,17 @@ class _LogicScreen extends State<LogicScreen> {
                                                             buckets[i]
                                                                 .add(text.text);
                                                           });
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
                                                         child: Text(
                                                           'Add ',
-                                                          style: GoogleFonts.inter(
-                      fontSize: 14, fontWeight: FontWeight.w400),
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
                                                         )),
                                                   ),
                                                 ],

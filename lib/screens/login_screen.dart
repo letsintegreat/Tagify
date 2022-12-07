@@ -10,6 +10,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hackathon_project/models/user_model.dart';
+import 'package:hackathon_project/screens/email_login.dart';
 import 'package:hackathon_project/screens/tabs_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -175,8 +176,41 @@ class LoginScreen extends StatelessWidget {
                       color: Colors.white),
                 ),
                 const SizedBox(
-                  height: 250,
+                  height: 200,
                 ),
+                Builder(builder: (context) {
+                  return GestureDetector(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>EmailLogin())),
+                    child: Container(
+                      width: 300,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(9),
+                        ),
+                      ),
+                      child: Center(
+                        child: Row(
+                          children: [
+                            Container(
+                                margin: EdgeInsets.all(8),
+                                child: const Icon(Icons.email,size: 42)),
+                             const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Login with Email',
+                              style: GoogleFonts.inter(
+                                  fontSize: 20, fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 20,),
                 Builder(builder: (context) {
                   return GestureDetector(
                     onTap: () => auth(context),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hackathon_project/screens/all_tags_screen.dart';
 import 'package:hackathon_project/screens/new_group_screen.dart';
 import 'package:hackathon_project/screens/new_tag_screen.dart';
@@ -39,6 +40,8 @@ class _TabsScreenState extends State<TabsScreen> {
           Builder(builder: (context) {
             return IconButton(
                 onPressed: () async {
+                  GoogleSignIn googleSignIn = GoogleSignIn();
+                  await googleSignIn.disconnect();
                   await FirebaseAuth.instance.signOut();
                 },
                 icon: Icon(Icons.logout));

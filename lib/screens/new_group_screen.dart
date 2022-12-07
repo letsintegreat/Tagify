@@ -138,8 +138,13 @@ class _NewGroupScreen extends State<NewGroupScreen> {
             );
             return;
           }
+          DocumentReference<Map<String, dynamic>> newDoc = FirebaseFirestore.instance
+              .collection("groups")
+              .doc();
           String? userid = FirebaseAuth.instance.currentUser!.uid;
-          GroupModel newGroup = GroupModel(name: name, logic: logic);
+
+          GroupModel newGroup = GroupModel(groupId: newDoc.id,name: name, logic: logic);
+
           newGroup.users.add(userid);
           var snapshot =
               await FirebaseFirestore.instance.collection("users").get();
@@ -150,9 +155,9 @@ class _NewGroupScreen extends State<NewGroupScreen> {
               newGroup.users.add(currUser.id);
             }
           }
-          FirebaseFirestore.instance
-              .collection("groups")
-              .add(newGroup.toJson());
+
+          newDoc.set(newGroup.toJson());
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(

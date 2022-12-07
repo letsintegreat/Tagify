@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackathon_project/models/group_model.dart';
 import 'package:hackathon_project/models/user_model.dart';
+import 'package:hackathon_project/screens/tabs_screen.dart';
 import 'package:hackathon_project/widgets/tags.dart';
 
 class GroupInfoScreen extends StatelessWidget {
@@ -18,6 +20,23 @@ class GroupInfoScreen extends StatelessWidget {
         title: Text(groupModel.name),
         backgroundColor: const Color.fromRGBO(108, 52, 217, 0.9),
         elevation: 0,
+        actions: [
+          if(groupModel.users[0]==FirebaseAuth.instance.currentUser?.uid)
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: IconButton(onPressed: () {
+                FirebaseFirestore.instance.collection("groups").doc(groupModel.groupId).delete().then((_) {
+                  Navigator.pushAndRemoveUntil<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => TabsScreen( ),
+                    ),
+                        (route) => false,
+                  );
+                });
+            }, icon: Icon(Icons.delete_outline)),
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance.collection("users").get(),

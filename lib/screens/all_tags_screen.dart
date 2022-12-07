@@ -95,6 +95,27 @@ class _AllTagsScreen extends State<AllTagsScreen> {
                                                   .collection("users")
                                                   .doc(userid)
                                                   .set(myUser.toJson());
+                                              var snapshot = await FirebaseFirestore
+                                                  .instance
+                                                  .collection("groups")
+                                                  .get();
+                                              snapshot.docs.forEach(
+                                                    (element) async {
+                                                  GroupModel currGroup =
+                                                  GroupModel.fromJson(element.data());
+                                                  if (currGroup.users
+                                                      .contains(myUser.id)) {
+                                                    if (!myUser
+                                                        .evaluateLogic(currGroup.logic)) {
+                                                      currGroup.users.remove(myUser.id);
+                                                      await FirebaseFirestore.instance
+                                                          .collection("groups")
+                                                          .doc(element.id)
+                                                          .set(currGroup.toJson());
+                                                    }
+                                                  }
+                                                },
+                                              );
                                               setState(() {
                                                 _unassignedTags.add(tagInQuestion);
                                                 _assignedTags.remove(tagInQuestion);

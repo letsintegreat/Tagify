@@ -151,7 +151,7 @@ class _LogicScreen extends State<LogicScreen> {
                                                 bottom: MediaQuery.of(context)
                                                         .viewInsets
                                                         .bottom +
-                                                    10,
+                                                    100,
                                                 right: 10,
                                                 left: 10,
                                               ),
@@ -160,57 +160,109 @@ class _LogicScreen extends State<LogicScreen> {
                                                   const SizedBox(
                                                     height: 20,
                                                   ),
-                                                  TextField(
-                                                    controller: text,
-                                                    cursorColor:
-                                                        const Color.fromRGBO(
-                                                            82, 45, 174, 1),
-                                                    autofocus: true,
-                                                    style: GoogleFonts.inter(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: const Color
-                                                                .fromRGBO(
-                                                            82, 45, 174, 1)),
-                                                    decoration: InputDecoration(
-                                                      hintText: 'Enter a tag',
-                                                      hintStyle:
-                                                          GoogleFonts.poppins(
-                                                        color: const Color
-                                                                .fromRGBO(
-                                                            82, 45, 174, 1),
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 14,
-                                                      ),
-                                                      border: const OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      8)),
-                                                          borderSide: BorderSide(
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                      82,
-                                                                      45,
-                                                                      174,
-                                                                      1),
-                                                              width: 2)),
-                                                      focusedBorder: const OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      8)),
-                                                          borderSide: BorderSide(
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                      82,
-                                                                      45,
-                                                                      174,
-                                                                      1),
-                                                              width: 2)),
-                                                    ),
+                                                  Autocomplete<String>(
+                                                    optionsMaxHeight: 100,
+                                                    optionsBuilder: (TextEditingValue textEditingValue) {
+                                                      if (textEditingValue.text == '') {
+                                                        return const Iterable<String>.empty();
+                                                      }
+                                                      return availableTags.where((String option) {
+                                                        return option.contains(textEditingValue.text.toLowerCase());
+                                                      });
+                                                    },
+                                                    optionsViewBuilder: (context, onSelected, options){
+                                                      return Align(
+                                                          alignment: Alignment.topLeft,
+                                                          child: Material(
+                                                            color: const Color.fromRGBO(229, 224, 239, 1),
+                                                            elevation: 4.0,
+
+                                                            child: Container(
+                                                                width: MediaQuery.of(context).size.width - 40,
+                                                                height: 100,
+                                                                child: ListView.separated(
+                                                                  padding: EdgeInsets.zero,
+                                                                  itemBuilder: (context, index){
+                                                                    final option = options.elementAt(index);
+                                                                    return ListTile(
+                                                                      title: Text(
+                                                                        option,
+                                                                        style: GoogleFonts.inter(
+                                                                            fontSize: 12,
+                                                                            fontWeight:
+                                                                            FontWeight.w600,
+                                                                            color: const Color
+                                                                                .fromRGBO(
+                                                                                82, 45, 174, 1)),
+                                                                      ),
+                                                                      onTap: (){onSelected(option.toString());},
+                                                                    );
+                                                                  },
+                                                                  itemCount: options.length,
+                                                                  separatorBuilder: (BuildContext context, int index) {return const Divider(height: 0,);  },
+                                                                ),
+                                                            ),
+                                                          )
+                                                      );
+                                                    },
+                                                    fieldViewBuilder: (context, text1, focusNode, onFieldSubmitted){
+                                                      text=text1;
+                                                      return TextField(
+                                                            controller: text1,
+                                                            focusNode: focusNode,
+                                                            onEditingComplete: onFieldSubmitted,
+
+                                                            cursorColor:
+                                                                const Color.fromRGBO(
+                                                                    82, 45, 174, 1),
+                                                            autofocus: true,
+                                                            style: GoogleFonts.inter(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight.w600,
+                                                                color: const Color
+                                                                        .fromRGBO(
+                                                                    82, 45, 174, 1)),
+                                                            decoration: InputDecoration(
+                                                              hintText: 'Enter a tag',
+                                                              hintStyle:
+                                                                  GoogleFonts.poppins(
+                                                                color: const Color
+                                                                        .fromRGBO(
+                                                                    82, 45, 174, 1),
+                                                                fontWeight:
+                                                                    FontWeight.w500,
+                                                                fontSize: 14,
+                                                              ),
+                                                              border: const OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              8)),
+                                                                  borderSide: BorderSide(
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                              82,
+                                                                              45,
+                                                                              174,
+                                                                              1),
+                                                                      width: 2)),
+                                                              focusedBorder: const OutlineInputBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius.all(
+                                                                          Radius.circular(
+                                                                              8)),
+                                                                  borderSide: BorderSide(
+                                                                      color: Color
+                                                                          .fromRGBO(
+                                                                              82,
+                                                                              45,
+                                                                              174,
+                                                                              1),
+                                                                      width: 2)),
+                                                            ),
+                                                          );
+                                                    },
                                                   ),
                                                   const SizedBox(
                                                     height: 10,

@@ -7,7 +7,6 @@ import 'package:hackathon_project/screens/new_group_screen.dart';
 import 'package:hackathon_project/screens/new_tag_screen.dart';
 import '../screens/homescreen.dart';
 
-
 class TabsScreen extends StatefulWidget {
   // AadOAuth oauth;
   TabsScreen({super.key});
@@ -40,9 +39,31 @@ class _TabsScreenState extends State<TabsScreen> {
           Builder(builder: (context) {
             return IconButton(
                 onPressed: () async {
-                  GoogleSignIn googleSignIn = GoogleSignIn();
-                  await googleSignIn.disconnect();
-                  await FirebaseAuth.instance.signOut();
+                  showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          title: Text("Confirm Sign Out?"),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () async{
+                                GoogleSignIn googleSignIn = GoogleSignIn();
+                                await googleSignIn.disconnect();
+                                await FirebaseAuth.instance.signOut();
+                              },
+                              style:ElevatedButton.styleFrom(backgroundColor: Color.fromRGBO(108, 52, 217, 0.9)),
+                              child: Text("Yes"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: TextButton.styleFrom(foregroundColor: Color.fromRGBO(108, 52, 217, 0.9)),
+                              child: Text("Cancel"),
+                            )
+                          ],
+                        );
+                      });
                 },
                 icon: Icon(Icons.logout));
           }),

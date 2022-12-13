@@ -47,8 +47,10 @@ class _TabsScreenState extends State<TabsScreen> {
                           actions: [
                             ElevatedButton(
                               onPressed: () async{
-                                GoogleSignIn googleSignIn = GoogleSignIn();
-                                await googleSignIn.disconnect();
+                                if (FirebaseAuth.instance.currentUser?.providerData[0].providerId=="google.com"){
+                                  GoogleSignIn googleSignIn = GoogleSignIn();
+                                  await googleSignIn.disconnect();
+                                }
                                 await FirebaseAuth.instance.signOut();
                               },
                               style:ElevatedButton.styleFrom(backgroundColor: Color.fromRGBO(108, 52, 217, 0.9)),

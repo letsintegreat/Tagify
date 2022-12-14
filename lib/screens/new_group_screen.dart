@@ -7,6 +7,8 @@ import 'package:hackathon_project/models/user_model.dart';
 import 'package:hackathon_project/screens/logic_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'tabs_screen.dart';
+
 class NewGroupScreen extends StatefulWidget {
   const NewGroupScreen({super.key});
 
@@ -119,7 +121,7 @@ class _NewGroupScreen extends State<NewGroupScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(122, 83, 217, 0.9),
-        onPressed: () async {
+        onPressed: () {
           String name = _nickNameCont.text;
           String logic = _logicCont.text;
           if (name.isEmpty) {
@@ -146,25 +148,37 @@ class _NewGroupScreen extends State<NewGroupScreen> {
           GroupModel newGroup = GroupModel(groupId: newDoc.id,name: name, logic: logic);
 
           newGroup.users.add(userid);
-          var snapshot =
-              await FirebaseFirestore.instance.collection("users").get();
-          for (var element in snapshot.docs) {
-            UserModel currUser = UserModel.fromJson(element.data());
-            if (currUser.id == userid) continue;
-            if (currUser.evaluateLogic(logic)) {
-              newGroup.users.add(currUser.id);
-            }
-          }
 
-          newDoc.set(newGroup.toJson());
+          FirebaseFirestore.instance.collection("users").get().then((snapshot){
+                for (var element in snapshot.docs) {
+                  UserModel currUser = UserModel.fromJson(element.data());
+                  if (currUser.id == userid) continue;
+                  if (currUser.evaluateLogic(logic)) {
+                    newGroup.users.add(currUser.id);
+                  }
+                }
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                "$name has been created with ${newGroup.users.length} users.",
-              ),
-            ),
-          );
+                newDoc.set(newGroup.toJson());
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "$name has been created with ${newGroup.users.length} users.",
+                    ),
+                  ),
+                );
+
+                Navigator.pushAndRemoveUntil<dynamic>(
+                  context,
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) => TabsScreen( ),
+                  ),
+                      (route) => false,
+                );
+              });
+
+
+
         },
         child: const Icon(Icons.check),
       ),

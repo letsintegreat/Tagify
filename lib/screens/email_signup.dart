@@ -16,6 +16,7 @@ class EmailSignup extends StatefulWidget {
 
 class _EmailSignupState extends State<EmailSignup> {
   bool passwordVisibility = true;
+  bool confirmPasswordVisibility = true;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -159,20 +160,24 @@ class _EmailSignupState extends State<EmailSignup> {
                         errorText: _passwordError,
                         controller: _passwordController,
                         isPasswordVisible: passwordVisibility,
+                        hint: "Password",
                         onTap: () {
                           setState(() {
                             passwordVisibility = !passwordVisibility;
                           });
                         },
                       ),
-                      MyTextField(
+                      MyPasswordField(
                         errorText: _confirmError,
                         controller: _confirmController,
-                        hintText: 'Confirm Password',
-                        inputType: TextInputType.text,
+                        isPasswordVisible: confirmPasswordVisibility,
+                        hint: "Confirm Password" ,
+                        onTap: () {
+                          setState(() {
+                            confirmPasswordVisibility = !confirmPasswordVisibility;
+                          });
+                        },
                       ),
-                    ],
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children:  [
@@ -208,10 +213,10 @@ class _EmailSignupState extends State<EmailSignup> {
                   )
                 ],
               ),
-            ),
+            ]),
           ),
         ),
       ),
-    );
+    ));
   }
 }

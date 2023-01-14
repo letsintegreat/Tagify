@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class MyPasswordField extends StatelessWidget {
+
   const MyPasswordField({
     Key? key,
     required this.isPasswordVisible,
     required this.onTap,
     required this.controller,
+    required this.hint,
     this.errorText,
   }) : super(key: key);
   final TextEditingController controller;
   final bool isPasswordVisible;
+  final String? hint;
   final void Function() onTap;
   final String? errorText;
 
@@ -41,7 +44,7 @@ class MyPasswordField extends StatelessWidget {
             ),
           ),
           contentPadding: EdgeInsets.all(20),
-          hintText: 'Password',
+          hintText: hint,
           hintStyle: const TextStyle(
             color: Colors.grey,
             fontSize: 15,

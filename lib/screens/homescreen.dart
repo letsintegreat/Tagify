@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
+                            padding: const EdgeInsets.only(left: 10.0,),
                             child: Container(
                               width: 48.0,
                               height: 48.0,
@@ -92,14 +92,21 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            displayGroups[index].name,
-                            style: GoogleFonts.inter(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey[200],
-                            ),
-                          )
+                          Flexible(
+                            child: Padding(padding:const EdgeInsets.only(right: 10.0,),
+                              child:Text(
+                              displayGroups[index].name,
+                              style: GoogleFonts.inter(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[200],
+                                  )
+                              )
+                            )
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
                         ],
                       ),
                     );

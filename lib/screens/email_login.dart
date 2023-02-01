@@ -130,7 +130,7 @@ class _EmailLoginPageState extends State<EmailLogin> {
                             setState(() {
                               isPasswordVisible = !isPasswordVisible;
                             });
-                          },
+                          }, hint: "Password",
                         ),
                       ],
                     ),
